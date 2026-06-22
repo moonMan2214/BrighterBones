@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brighter Bones - New Horizons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .old-web {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            border: 1px solid #aaa;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+
+        header {
+            background: #336699;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            margin-top: 8px;
+            opacity: 0.95;
+        }
+
+        .discontinued {
+            background: #cc0000;
+            color: white;
+            padding: 4px 12px;
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        nav {
+            background: #e6e6e6;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        nav a {
+            color: #003399;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            color: #336699;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .warning {
+            background: #fff3cc;
+            border: 1px solid #e6b800;
+            color: #664400;
+            padding: 12px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .content h3 {
+            color: #336699;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .secret-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background: #555;
+            color: #ddd;
+            border: 1px solid #777;
+            padding: 6px 10px;
+            font-size: 0.85em;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.35;
+        }
+
+        .secret-btn:hover {
+            opacity: 1;
+            background: #333;
+        }
+
+        /* Backstory Modal */
+        .backstory-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .backstory-content {
+            background: white;
+            max-width: 620px;
+            width: 90%;
+            padding: 35px;
+            border: 3px solid #336699;
+        }
+
+        .backstory-content h2 {
+            color: #336699;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .positive {
+            color: #006600;
+            background: #e6ffe6;
+            padding: 18px;
+            border-left: 5px solid #00cc00;
+            margin-bottom: 25px;
+        }
+
+        .incident {
+            color: #660000;
+            background: #ffe6e6;
+            padding: 18px;
+            border-left: 5px solid #cc0000;
+            margin-top: 25px;
+        }
+
+        /* Password Modal */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2500;
+        }
+
+        .modal-content {
+            background: white;
+            border: 3px solid #336699;
+            padding: 35px;
+            width: 380px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.4em;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .error {
+            color: #cc0000;
+            margin-top: 10px;
+        }
+
+        /* Yellow Medical Records Page */
+        .yellow-page {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            z-index: 3000;
+            display: none;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .yellow-content {
+            max-width: 850px;
+            margin: 0 auto;
+            border: 3px solid #00ff00;
+            padding: 25px;
+            background: #001100;
+        }
+
+        .yellow-content h1 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        .header-line {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00cc00;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #00ff00;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #003300;
+        }
+
+        .detail-link {
+            color: #00ccff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .detail-link:hover {
+            color: #ffffff;
+        }
+
+        .obsolete {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Kevin Hart Paper Page */
+        .paper-page {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #2b2118;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .paper {
+            background: #f5e8c7;
+            color: #3c2f1e;
+            max-width: 720px;
+            padding: 50px 45px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            border: 12px solid #5c4633;
+            font-family: 'Georgia', serif;
+            line-height: 1.65;
+            font-size: 1.05em;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .paper h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #3c2f1e;
+            padding-bottom: 10px;
+        }
+
+        /* Patient Detail Modal */
+        .detail-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 4000;
+        }
+
+        .detail-content {
+            background: #001100;
+            color: #00ff00;
+            border: 3px solid #00ff00;
+            max-width: 720px;
+            width: 90%;
+            padding: 30px;
+            max-height: 85vh;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="old-web">
+        <header>
+            <h1>BRIGHTER BONES</h1>
+            <p class="tagline">Formerly New Horizons Therapeutics • Est. 2002</p>
+            <div class="discontinued">DISCONTINUED • ARCHIVED 2003</div>
+        </header>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#" id="backstory-link">Our Backstory</a>
+            <a href="#">Our Technology</a>
+            <a href="#">Clinical Trials</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <main>
+            <section class="hero">
+                <h2>Advanced Bone Regeneration Therapy</h2>
+                <p>Welcome to Brighter Bones. We were pioneers in regenerative medicine for bone cancer patients.</p>
+                <div class="warning">
+                    All clinical programs have been terminated.<br>
+                    This website is preserved for historical reference only.
+                </div>
+            </section>
+
+            <section class="content">
+                <h3>Company History</h3>
+                <p>Brighter Bones was established in 2002 as the public face of regenerative bone medicine. Operations ceased in 2003 following unexpected challenges in our late-stage trials.</p>
+            </section>
+        </main>
+
+        <footer style="text-align:center; padding:15px; background:#f5f5f5; color:#666; font-size:0.9em; border-top:1px solid #ddd;">
+            © 2002–2003 Brighter Bones Inc. All Rights Reserved.
+        </footer>
+
+        <!-- Secret Button -->
+        <button id="devs-only" class="secret-btn">DEVS ONLY</button>
+    </div>
+
+    <!-- Backstory Modal -->
+    <div id="backstory-modal" class="backstory-modal">
+        <div class="backstory-content">
+            <h2>Our Backstory</h2>
+            <div class="positive">
+                <strong>New Horizons Therapeutics</strong> was founded in 1990 in the Soviet Union in the years following the Chernobyl disaster. Inspired by the need to treat radiation-induced bone damage, our scientists developed revolutionary regenerative treatments that combined advanced stem cell therapy with precision radiation targeting.<br><br>
+                Our goal was clear: create a cure for bone cancer and radiation-related illnesses. For many patients, we offered real hope of recovery and a brighter future.
+            </div>
+
+            <div class="incident">
+                <strong>OUR SHUTDOWN</strong><br><br>
+                During the last phases of testing in 2002, something went horribly wrong. Subjects began exhibiting severe, unexplained side effects. This led to the immediate shutdown of New Horizons.<br><br>
+                <strong>After the incident, Brighter Bones was born</strong> — continuing the mission with renewed determination.
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <button onclick="closeBackstory()" style="padding:10px 25px; background:#336699; color:white; border:none; cursor:pointer;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <h3>DEVELOPER ACCESS</h3>
+            <p>Enter Authorization Code:</p>
+            <input type="password" id="password-input" placeholder="••••" maxlength="4">
+            <button id="submit-password" style="padding:10px 20px; margin-top:10px;">SUBMIT</button>
+            <p id="error-msg" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Yellow Medical Records Page -->
+    <div id="yellow-page" class="yellow-page">
+        <div class="yellow-content">
+            <h1>NEW HORIZONS MEDICAL RECORDS</h1>
+            <div class="header-line">YEAR 2002 • CLASSIFIED • INTERNAL USE ONLY</div>
+            
+            <p style="text-align:center; margin-bottom:25px; color:#ff8800;">
+                <strong>WARNING:</strong> ACCESSING THESE RECORDS WITHOUT AUTHORIZATION IS STRICTLY PROHIBITED
+            </p>
+
+            <table>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td><strong>PATIENT 001</strong></td>
+                    <td>ACTIVE</td>
+                    <td><span class="detail-link" onclick="showPatientDetail(1)">READ DETAILS →</span></td>
+                </tr>
+                <tr>
+                    <td>PATIENT 002</td>
+                    <td class="obsolete">OBSOLETE</td>
+                    <td class="obsolete">Record archived • Access restricted</td>
+                </tr>
+                <tr>
+                    <td>PATIENT 003</td>
+                    <td class="obsolete">OBSOLETE</td>
+                    <td class="obsolete">Record archived • Access restricted</td>
+                </tr>
+                <tr>
+                    <td>PATIENT 004</td>
+                    <td class="obsolete">OBSOLETE</td>
+                    <td class="obsolete">Record archived • Access restricted</td>
+                </tr>
+                <tr>
+                    <td>PATIENT 005</td>
+                    <td class="obsolete">OBSOLETE</td>
+                    <td class="obsolete">Record archived • Access restricted</td>
+                </tr>
+                <tr>
+                    <td>PATIENT 006</td>
+                    <td class="obsolete">OBSOLETE</td>
+                    <td class="obsolete">Record archived • Access restricted</td>
+                </tr>
+                <tr>
+                    <td><strong>PATIENT 007</strong></td>
+                    <td>ACTIVE</td>
+                    <td><span class="detail-link" onclick="showPatientDetail(7)">READ DETAILS →</span></td>
+                </tr>
+            </table>
+
+            <p style="text-align:center; margin-top:30px; color:#ff0000;">
+                END OF FILE • NEW HORIZONS THERAPEUTICS • 2002
+            </p>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="goBack()" style="padding:12px 30px; background:#330000; color:#ff8800; border:2px solid #ff0000; cursor:pointer; font-weight:bold;">RETURN TO ARCHIVE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kevin Hart Paper Page -->
+    <div id="paper-page" class="paper-page">
+        <div class="paper">
+            <h1>Personal Statement - Kevin Hart</h1>
+            <p>Hello. I'm Kevin Hart. I’ll be telling the story of what I know happened in the New Horizons company. Hopefully this doesn't get in the wrong hands.</p>
+            <p>Well to start this off I was trying to get into a science company after college. It was a bumpy ride but eventually I got hired at New Horizons for bone cancer and radiation medicine and cures. They always seemed so strange when I first worked there, like sometimes I would randomly be kicked out of ‘important meetings’ it just never made sense.</p>
+            <p>For my first year I didn’t do much. I only stayed because they made me. Long story short, I got roped in through threats to my family and lots of money being bribed. I regret ever signing that contract…</p>
+            <p>In 1991 their first subject arrived. I never got to find out his name, but he was an older man who was a war veteran from world war 2. He was always calm until we tested him. New Horizons always claimed to be a good ethical company… but they weren't. If you would have seen the things they did to that man… You would have been so doomed.</p>
+            <p>This man grew in inhuman ways. He was kept in a cold light room, but we ended up taking the lights out because he hated it. Day after day he morphed into a creature who was tall and shaky. He always wanted to be called Grunkle Doodley. I always thought it was because he was crazy. For some reason they sent him home. He couldn’t live on his own and started morphing and being remade in inhuman ways in the darkness. He was sent with employees to watch him and make sure the lights stayed on at all times.</p>
+            <p>Years later after patient 7 escaped (more on him later) someone forgot to keep one of the lights on and… he tortured the employees till they were dead. After that no one knows where he went.</p>
+            <p>But in between those times there were more people. Every time they would treat their lab rats they would die in horrible ways. Some would grow so till that their bones would snap, others would grow extra skin till they couldn't breathe. It was bad.</p>
+            <p>Although many people died, one final subject arrived. Patient 7. I didn't know his name but one of my co-workers did. It's a little hazy but I think his first name was… Carson. He was different from the others. Once he took the treatment he grew… So very tall but didn't die. He mutated into a giant thing. He grew tiny gills and his nose grew bigger. He had an attraction to… feet. When we would feed him he would only eat the feet or wouldn't eat at all if there were no feet. So we stopped feeding him. He mutated even more screaming and begging for feet. It never worked. He mutated so much into a giant creature and almost escaped. We had to keep the lights on at all times. He was kept there for months.</p>
+            <p>One windy day, 3/17/02 the power went out. I was not there that day but the next day everyone was dead. Everybody had lost their feet, completely off. I can't even explain what went through my mind that day. I called the police and they arrived. They didn't even know what to do. The police couldn’t even check the cameras because the creature broke them. That day we shut down. I checked police reports days later and they died of some sort of radioactive poison. From my personal guess is that it somehow gained a way to inject poison.</p>
+            <p>After that incident the company was rebranded to Brighter Bones. Nothing really happened there. It was a reminder of that fateful day.</p>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="goBackPaper()" style="padding:12px 30px; background:#3c2f1e; color:#f5e8c7; border:2px solid #5c4633; cursor:pointer;">RETURN TO ARCHIVE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Detail Modal -->
+    <div id="detail-modal" class="detail-modal">
+        <div class="detail-content" id="detail-content"></div>
+    </div>
+
+    <script>
+        // Backstory Modal
+        const backstoryLink = document.getElementById('backstory-link');
+        const backstoryModal = document.getElementById('backstory-modal');
+
+        backstoryLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            backstoryModal.style.display = 'flex';
+        });
+
+        function closeBackstory() {
+            backstoryModal.style.display = 'none';
+        }
+
+        // Devs Only Modal
+        const devsBtn = document.getElementById('devs-only');
+        const modal = document.getElementById('password-modal');
+        const passwordInput = document.getElementById('password-input');
+        const submitBtn = document.getElementById('submit-password');
+        const errorMsg = document.getElementById('error-msg');
+        const yellowPage = document.getElementById('yellow-page');
+        const paperPage = document.getElementById('paper-page');
+
+        devsBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            passwordInput.focus();
+        });
+
+        submitBtn.addEventListener('click', checkPassword);
+
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            const code = passwordInput.value.trim();
+            modal.style.display = 'none';
+            passwordInput.value = '';
+
+            if (code === '1990') {
+                if (confirm("Are you sure you would like to enter?\n\nInfo here is classified and any violators may receive punishment.")) {
+                    yellowPage.style.display = 'block';
+                }
+            } else if (code === '2002') {
+                paperPage.style.display = 'flex';
+            } else {
+                errorMsg.textContent = "INVALID CODE. ACCESS DENIED.";
+                setTimeout(() => errorMsg.textContent = '', 2500);
+            }
+        }
+
+        function goBack() {
+            yellowPage.style.display = 'none';
+        }
+
+        function goBackPaper() {
+            paperPage.style.display = 'none';
+        }
+
+        // Patient Reports
+        const patientReports = {
+            1: `
+<strong>PATIENT 001 MEDICAL REPORTS</strong><br><br>
+
+Report 1. We recently received this patient. He is a war veteran from WW2. We have not tested on this patient yet.<br><br>
+
+Report 2. Patient started receiving minor changes. Patient declares feeling slightly dozy and requesting water constantly.<br><br>
+
+Report 3. After taking treatment patient seems to be very shaky. Patient is sleeping 3 times more than when first taking treatment.<br><br>
+
+Report 3. Patient is avoiding light and is growing tall. Patient claims to hate the light and refuses to be called anything but Grunkle Doodley.<br><br>
+
+Report 4. Patients side effects are deepening even more.<br><br>
+
+Report 5. Patient is experimenting with food, such as pretending to kill the food and choke it.<br><br>
+
+Report 6. The lab decided that side effects are not deepening and are preparing to take patient off treatment and sent home on surveillance.<br><br>
+
+Report 7. The patient is currently being sent back to his home. Patient is much calmer in his home, and is gaining back most mental stability.<br><br>
+
+Report 8. Patient has gained most mental stability from when he arrived. He has been sent with employees to watch him till then.<br><br>
+
+Report 9. This report is being token by Grant Westle. This 'man' killed the people watching him. I work with the police and this is the worst way I have ever seen anyone die. This patient tortured the people here. I will not disclose injuries because they are very severe. We dont know where this patient is.<br><br>
+
+Summary: Patient has failed. The lab does not know where patient is. No more reports will be sent until further notice. For more updates, check policeroc.vercel.app.
+            `
+        };
+
+        function showPatientDetail(id) {
+            const detailModal = document.getElementById('detail-modal');
+            const content = document.getElementById('detail-content');
+            
+            if (id === 1) {
+                content.innerHTML = patientReports[1] + '<br><br><button onclick="closeDetailModal()" style="padding:10px 25px; background:#330000; color:#ff8800; border:2px solid #ff0000; cursor:pointer;">CLOSE REPORT</button>';
+            } else if (id === 7) {
+                content.innerHTML = `<strong>PATIENT 007 MEDICAL REPORTS</strong><br><br><em> PATIENT 7 MEDICAL RECORDS
+
+
+Report 1. We received a brand new patient. From previous tests this one is looking different. His name is Carson Miralook.<br><br>
+
+Report 2. Patient is growing beyond expectancy.<br><br>
+
+Report 3. The patient's body is mutating. He is growing a longer nose, and growing sharp saw-like teeth.<br><br>
+
+Report 4. Patient is growing a strong lust for feet. He claims to need feet for growth. Patient also claims to hate the light.<br><br>
+
+Report 5. Every meal we give him he only eats the feet or refuses to eat at all.<br><br>
+
+Report 6. We have cut off food from patient completely. Signs are looking worse.<br><br>
+
+Report 7. Patient is mutating in the darkness. He is growing very large.<br><br>
+
+Report 8. We have turned lights on at all times so mutating slows down.<br><br>
+
+Report 9. It seems that turning the lights off has worked very well. Updates will be slower now.<br><br>
+
+Report 10. Patient is growing more angry from the past months.<br><br>
+
+Report 11. This report is being taken by Grant Westle. The police department was recently called by a man named Kevin Hart. We arrived at the laboratory of New Horizions. Upon walking in we saw many peoples feet cut off. It was a horrifying sight to see. Kevin Hart and my team searched and found one of the creatures missing. No more info was found.<br><br>
+
+Summary: Patient has seemed to escape and killed employees. No more reports will be sent until further notice, for more updates check police policeroc.vercel.app.
+</em><br><br><button onclick="closeDetailModal()" style="padding:10px 25px; background:#330000; color:#ff8800; border:2px solid #ff0000; cursor:pointer;">CLOSE REPORT</button>`;
+            }
+            detailModal.style.display = 'flex';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
